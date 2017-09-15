@@ -1,0 +1,19 @@
+body {
+  padding: 0 10px 10px 10px;
+  white-space: nowrap;
+  width: 400px;
+}
+
+h1 {
+  font-size: 15px;
+  /*text-align: center;*/
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+#new-character-name {
+  display: inline-block;
+  width: 70%;
+}
