@@ -126,9 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // MY CODE
-$(document).ready(function() {
-  $('tbody').sortable();
-});
 
 // VUE stuff
 var storageKey = 'dnd-initiative-tracker-v2';
@@ -145,6 +142,29 @@ var initiativeApp = new Vue({
       items[storageKey] = this.players;
       chrome.storage.sync.set(items);
     }, {deep:true});
+
+    var that = this;
+    $(document).ready(function() {
+      $('tbody').sortable({
+        update: function(event, ui) {
+          var rows = $('tbody tr');
+          var newPos = {};
+          for(var i = 0; i < rows.length; i++) {
+            var playerName = rows[i].id;
+            newPos[playerName] = i;
+          }
+
+          var curIdx = 0;
+          that.players.forEach(function(player) {
+            var updatedPos = newPos[player.name];
+            var updatedPlayer = player;
+            updatedPlayer.order = updatedPos;
+
+            Vue.set(that.players, curIdx++, updatedPlayer);
+          });
+        }
+      });
+    });
   },
   data: {
     newEntryName: '',
@@ -155,11 +175,13 @@ var initiativeApp = new Vue({
       if (this.newEntryName == null || this.newEntryName == '') {
       	return;
       }
+      var curLength = this.players.length;
     	this.players.push({
       	name: this.newEntryName,
         hitPoints: 15,
         armorClass: 15,
-        persisted: false
+        persisted: false,
+        order: curLength
       });
       this.newEntryName = '';
     },

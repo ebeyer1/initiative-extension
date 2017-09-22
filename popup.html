@@ -39,7 +39,7 @@
       		</tr>
       	</thead>
         <tbody>
-          <tr v-for="(index, player) in players" class="clickable">
+          <tr id="{{ player.name }}" v-for="(index, player) in players | orderBy 'order'" class="clickable">
             <td class="v-middle">:::</td>
             <td class="v-middle">{{ player.name }}</td>
             <td>
