@@ -131,31 +131,24 @@ $(document).ready(function() {
 });
 
 // VUE stuff
-
+var storageKey = 'dnd-initiative-tracker-v2';
 var initiativeApp = new Vue({
   el: '#initiative-app',
+  ready: function () {
+    chrome.storage.sync.get(storageKey, (items) => {
+      var val = chrome.runtime.lastError ? null : items[storageKey];
+      this.players = val || [];
+    });
+
+    this.$watch('players', function () {
+      var items = {};
+      items[storageKey] = this.players;
+      chrome.storage.sync.set(items);
+    }, {deep:true});
+  },
   data: {
-  	newEntryName: '',
-    players: [
-    	{
-      	name: 'Aurodin',
-        hitPoints: 20,
-        armorClass: 18,
-        persisted: true
-      },
-      {
-      	name: 'Perrelin',
-        hitPoints: 16,
-        armorClass: 15,
-        persisted: true
-      },
-      {
-      	name: 'Odran',
-        hitPoints: 18,
-        armorClass: 14,
-        persisted: true
-      }
-    ]
+    newEntryName: '',
+    players: []
   },
   methods: {
   	addRow: function() {
@@ -165,7 +158,8 @@ var initiativeApp = new Vue({
     	this.players.push({
       	name: this.newEntryName,
         hitPoints: 15,
-        armorClass: 15
+        armorClass: 15,
+        persisted: false
       });
       this.newEntryName = '';
     },
@@ -176,6 +170,18 @@ var initiativeApp = new Vue({
     },
     changeHp: function(player, amount) {
       player.hitPoints = Math.max(0, player.hitPoints += amount);
+    },
+    lockPlayer: function(player, index) {
+      var newPlayer = player;
+      newPlayer.persisted = true;
+
+      Vue.set(this.players, index, newPlayer);
+    },
+    unlockPlayer: function(player, index) {
+      var newPlayer = player;
+      newPlayer.persisted = false;
+
+      Vue.set(this.players, index, newPlayer);
     }
   }
 })
