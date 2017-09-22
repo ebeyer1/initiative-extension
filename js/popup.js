@@ -130,15 +130,51 @@ $(document).ready(function() {
   $('tbody').sortable();
 });
 
-// delete <TR> row, childElem is any element inside row
-function removeRow(childElem) {
-    var row = $(childElem).closest("tr"); // find <tr> parent
-    row.remove();
-}
+// VUE stuff
 
-var removeButton = '<button class="btn btn-danger btn-xs" onclick="removeRow(this)" title="Remove"><span class="glyphicon glyphicon-remove"></span></button>';
-function addRow() {
-  var newName = $('#new-character-name').val();
-  $('#initiative-table').find('tbody').append('<tr><td>:::</td><td>'+newName+'</td><td></td><td></td><td>'+removeButton+'</td></tr>');
-  $('#new-character-name').val('');
-}
+var initiativeApp = new Vue({
+  el: '#initiative-app',
+  data: {
+  	newEntryName: '',
+    players: [
+    	{
+      	name: 'Aurodin',
+        hitPoints: 20,
+        armorClass: 18
+      },
+      {
+      	name: 'Goblins',
+        hitPoints: 7,
+        armorClass: 14
+      },
+      {
+      	name: 'Perrelin',
+        hitPoints: 16,
+        armorClass: 15
+      },
+      {
+      	name: 'Odran',
+        hitPoints: 18,
+        armorClass: 14
+      }
+    ]
+  },
+  methods: {
+  	addRow: function() {
+      if (this.newEntryName == null || this.newEntryName == '') {
+      	return;
+      }
+    	this.players.push({
+      	name: this.newEntryName,
+        hitPoints: 12,
+        armorClass: 15
+      });
+      this.newEntryName = '';
+    },
+    removeRow: function(idx) {
+    	if (idx >= 0 && idx < this.players.length) {
+        this.players.splice(idx, 1);
+      }
+    }
+  }
+})

@@ -21,53 +21,41 @@
     <!-- jquery used for sortable "drag and drop table" -->
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
-    <script src="js/popup.js"></script>
+    <script src="js/vue.min.js"></script>
   </head>
 
   <body>
-  <!-- <h1>Initiative Tracker</h1> -->
-	<table id="initiative-table" class="table table-condensed">
-  	<thead>
-  		<tr>
-  			<th></th>
-  			<th>Name</th>
-  			<th>HP</th>
-  			<th>AC</th>
-        <th></th>
-  		</tr>
-  	</thead>
-  	<tbody>
-  		<tr class="clickable">
-  			<td>:::</td>
-  			<td>Aurodin</td>
-  			<td>20</td>
-  			<td>18</td>
-        <td><button class="btn btn-danger btn-xs" onclick="removeRow(this)" title="Remove"><span class="glyphicon glyphicon-remove"></span></button></td>
-  		</tr>
-  		<tr class="clickable">
-  			<td>:::</td>
-  			<td>Goblins</td>
-  			<td>12</td>
-  			<td>14</td>
-        <td><button class="btn btn-danger btn-xs" onclick="removeRow(this)" title="Remove"><span class="glyphicon glyphicon-remove"></span></button></td>
-  		</tr>
-  		<tr class="clickable">
-  			<td>:::</td>
-  			<td>Perrelin</td>
-  			<td>16</td>
-  			<td>15</td>
-        <td><button class="btn btn-danger btn-xs" onclick="removeRow(this)" title="Remove"><span class="glyphicon glyphicon-remove"></span></button></td>
-  		</tr>
-  		<tr class="clickable">
-  			<td>:::</td>
-  			<td>Odran</td>
-  			<td>18</td>
-  			<td>14</td>
-        <td><button class="btn btn-danger btn-xs" onclick="removeRow(this)" title="Remove"><span class="glyphicon glyphicon-remove"></span></button></td>
-  		</tr>
-  	</tbody>
-  </table>
-  <input type="text" id="new-character-name" class="form-control" placeholder="New Entry Name..." />
-  <button class="btn btn-success btn-sm" onclick="addRow()">Add Row</button>
+    <!-- <h1>Initiative Tracker</h1> -->
+    <div id="initiative-app">
+      <table class="table table-condensed">
+      	<thead>
+      		<tr class="clickable">
+      			<th></th>
+      			<th>Name</th>
+      			<th>HP</th>
+      			<th>AC</th>
+            <th></th>
+      		</tr>
+      	</thead>
+        <tbody>
+          <tr v-for="(index, player) in players" class="clickable">
+            <td>:::</td>
+            <td>{{ player.name }}</td>
+            <td>{{ player.hitPoints }}</td>
+            <td>{{ player.armorClass }}</td>
+            <td>
+              <button class="btn btn-danger btn-xs" v-on:click="removeRow(index)" title="Remove">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <input type="text" v-model="newEntryName" class="form-control" placeholder="New Entry Name..." />
+      <button class="btn btn-success btn-sm" v-on:click="addRow">Add Row</button>
+    </div>
+
+    <!-- Load my code after other libraries -->
+    <script src="js/popup.js"></script>
   </body>
 </html>
