@@ -57,13 +57,13 @@
             </td>
             <td><input type="number" v-model="player.armorClass" class="form-control" placeholder="hp" step="1" style="max-width: 60px;" /></td>
             <td>
-              <button class="btn btn-danger btn-xs" v-on:click="removeRow(index)" v-if="!player.persisted" title="Remove">
+              <button class="btn btn-danger btn-xs" v-on:click="removeRow(player)" v-if="!player.persisted" title="Remove">
                 <span class="glyphicon glyphicon-remove"></span>
               </button>
-              <button class="btn btn-default btn-xs" v-on:click="lockPlayer(player, index)" v-if="!player.persisted" title="Lock">
+              <button class="btn btn-default btn-xs" v-on:click="lockPlayer(player)" v-if="!player.persisted" title="Lock">
                 <span class="glyphicon glyphicon-lock"></span>
               </button>
-              <button class="btn btn-default btn-xs" v-on:click="unlockPlayer(player, index)" v-if="player.persisted" title="Unlock">
+              <button class="btn btn-default btn-xs" v-on:click="unlockPlayer(player)" v-if="player.persisted" title="Unlock">
                 <span class="glyphicon glyphicon-lock"></span>
               </button>
             </td>

@@ -157,10 +157,7 @@ var initiativeApp = new Vue({
           var curIdx = 0;
           that.players.forEach(function(player) {
             var updatedPos = newPos[player.name];
-            var updatedPlayer = player;
-            updatedPlayer.order = updatedPos;
-
-            Vue.set(that.players, curIdx++, updatedPlayer);
+            player.order = updatedPos;
           });
         }
       });
@@ -185,7 +182,11 @@ var initiativeApp = new Vue({
       });
       this.newEntryName = '';
     },
-    removeRow: function(idx) {
+    removeRow: function(player) {
+      var idx = 0;
+      for (idx = 0; idx < this.players.length; idx++) {
+        if (this.players[idx].name === player.name) break;
+      }
     	if (idx >= 0 && idx < this.players.length) {
         this.players.splice(idx, 1);
       }
@@ -193,17 +194,11 @@ var initiativeApp = new Vue({
     changeHp: function(player, amount) {
       player.hitPoints = Math.max(0, player.hitPoints += amount);
     },
-    lockPlayer: function(player, index) {
-      var newPlayer = player;
-      newPlayer.persisted = true;
-
-      Vue.set(this.players, index, newPlayer);
+    lockPlayer: function(player) {
+      player.persisted = true;
     },
-    unlockPlayer: function(player, index) {
-      var newPlayer = player;
-      newPlayer.persisted = false;
-
-      Vue.set(this.players, index, newPlayer);
+    unlockPlayer: function(player) {
+      player.persisted = false;
     }
   }
 })
