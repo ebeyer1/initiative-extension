@@ -140,22 +140,20 @@ var initiativeApp = new Vue({
     	{
       	name: 'Aurodin',
         hitPoints: 20,
-        armorClass: 18
-      },
-      {
-      	name: 'Goblins',
-        hitPoints: 7,
-        armorClass: 14
+        armorClass: 18,
+        persisted: true
       },
       {
       	name: 'Perrelin',
         hitPoints: 16,
-        armorClass: 15
+        armorClass: 15,
+        persisted: true
       },
       {
       	name: 'Odran',
         hitPoints: 18,
-        armorClass: 14
+        armorClass: 14,
+        persisted: true
       }
     ]
   },
@@ -166,7 +164,7 @@ var initiativeApp = new Vue({
       }
     	this.players.push({
       	name: this.newEntryName,
-        hitPoints: 12,
+        hitPoints: 15,
         armorClass: 15
       });
       this.newEntryName = '';
@@ -175,6 +173,9 @@ var initiativeApp = new Vue({
     	if (idx >= 0 && idx < this.players.length) {
         this.players.splice(idx, 1);
       }
+    },
+    changeHp: function(player, amount) {
+      player.hitPoints = Math.max(0, player.hitPoints += amount);
     }
   }
 })

@@ -17,3 +17,20 @@ h1 {
   display: inline-block;
   width: 70%;
 }
+
+.form-control-less-padding {
+  padding: 3px 6px;
+  text-align: center;
+}
+
+.no-outline {
+  outline: none !important;
+}
+
+.v-middle {
+  vertical-align: middle !important;
+}
+
+thead th {
+  text-align: center;
+}

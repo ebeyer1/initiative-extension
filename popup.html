@@ -25,6 +25,7 @@
   </head>
 
   <body>
+    <input type="hidden" />
     <!-- <h1>Initiative Tracker</h1> -->
     <div id="initiative-app">
       <table class="table table-condensed">
@@ -39,19 +40,34 @@
       	</thead>
         <tbody>
           <tr v-for="(index, player) in players" class="clickable">
-            <td>:::</td>
-            <td>{{ player.name }}</td>
-            <td>{{ player.hitPoints }}</td>
-            <td>{{ player.armorClass }}</td>
+            <td class="v-middle">:::</td>
+            <td class="v-middle">{{ player.name }}</td>
             <td>
-              <button class="btn btn-danger btn-xs" v-on:click="removeRow(index)" title="Remove">
+              <div class="input-group" style="max-width: 150px;">
+                <span class="input-group-btn">
+                    <button type="button" v-on:click="changeHp(player, -5)" class="btn btn-danger btn-xs no-outline">-5</button>
+                    <button type="button" v-on:click="changeHp(player, -1)" class="btn btn-danger btn-xs no-outline">-1</button>
+                </span>
+                <input type="number" v-model="player.hitPoints" class="form-control form-control-less-padding" placeholder="hp" step="1" />
+                <span class="input-group-btn">
+                    <button type="button" v-on:click="changeHp(player, 1)" class="btn btn-success btn-xs no-outline">+1</button>
+                    <button type="button" v-on:click="changeHp(player, 5)" class="btn btn-success btn-xs no-outline">+5</button>
+                </span>
+              </div>
+            </td>
+            <td><input type="number" v-model="player.armorClass" class="form-control" placeholder="hp" step="1" style="max-width: 60px;" /></td>
+            <td>
+              <button class="btn btn-danger btn-xs" v-on:click="removeRow(index)" v-if="!player.persisted" title="Remove">
                 <span class="glyphicon glyphicon-remove"></span>
+              </button>
+              <button class="btn btn-default btn-xs" disabled v-if="player.persisted" title="Locked">
+                <span class="glyphicon glyphicon-lock"></span>
               </button>
             </td>
           </tr>
         </tbody>
       </table>
-      <input type="text" v-model="newEntryName" class="form-control" placeholder="New Entry Name..." />
+      <input id="new-character-name" type="text" autofocus v-model="newEntryName" class="form-control" placeholder="New Entry Name..." />
       <button class="btn btn-success btn-sm" v-on:click="addRow">Add Row</button>
     </div>
 
