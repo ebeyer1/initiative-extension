@@ -168,7 +168,8 @@ var initiativeApp = new Vue({
     newEntryInitiative: '',
     newEntryHitPoints: '',
     newEntryArmorClass: '',
-    players: []
+    players: [],
+    lastSortKey: ''
   },
   methods: {
   	addRow: function() {
@@ -206,6 +207,55 @@ var initiativeApp = new Vue({
     },
     unlockPlayer: function(player) {
       player.persisted = false;
+    },
+    sortBy: function(sortKey) {
+      var sorted = [];
+      if (this.lastSortKey === sortKey) {
+        // reverse sort
+        sorted = this.players.sort(compareValues(sortKey, "desc"));
+
+        this.lastSortKey = '';
+      } else {
+        // normal sort
+        sorted = this.players.sort(compareValues(sortKey, "asc"));
+
+        this.lastSortKey = sortKey;
+      }
+
+      var newOrderDict = {};
+      for(var order = 0; order < sorted.length; order++) {
+        newOrderDict[sorted[order].name] = order;
+      }
+      for(var i = 0; i < this.players.length; i++) {
+        this.players[i].order = newOrderDict[this.players[i].name];
+      }
+
+      // pulled from: https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
+      function compareValues(key, order='asc') {
+        return function(a, b) {
+          if(!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+            // property doesn't exist on either object
+              return 0;
+          }
+
+          var varA = (typeof a[key] === 'string') ?
+            a[key].toUpperCase() : a[key];
+          varA = !isNaN(varA) ? parseInt(varA) : varA;
+          var varB = (typeof b[key] === 'string') ?
+            b[key].toUpperCase() : b[key];
+          varB = !isNaN(varB) ? parseInt(varB) : varB;
+
+          let comparison = 0;
+          if (varA > varB) {
+            comparison = 1;
+          } else if (varA < varB) {
+            comparison = -1;
+          }
+          return (
+            (order == 'desc') ? (comparison * -1) : comparison
+          );
+        };
+      }
     }
   }
 })

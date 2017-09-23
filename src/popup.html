@@ -31,10 +31,10 @@
       	<thead>
       		<tr class="clickable">
       			<th></th>
-      			<th>Name</th>
-      			<th>Initiative</th>
-      			<th>HP</th>
-      			<th>AC</th>
+      			<th v-on:click="sortBy('name')">Name</th>
+      			<th v-on:click="sortBy('initiative')">Initiative</th>
+      			<th v-on:click="sortBy('hitPoints')">HP</th>
+      			<th v-on:click="sortBy('armorClass')">AC</th>
             <th></th>
       		</tr>
       	</thead>
