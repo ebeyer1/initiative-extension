@@ -26,8 +26,6 @@
   </head>
 
   <body>
-    <input type="hidden" />
-    <!-- <h1>Initiative Tracker</h1> -->
     <div id="initiative-app">
       <table class="table table-condensed">
       	<thead>
@@ -71,8 +69,13 @@
           </tr>
         </tbody>
       </table>
-      <input id="new-character-name" type="text" autofocus v-model="newEntryName" class="form-control" placeholder="New Entry Name..." />
-      <button class="btn btn-success btn-sm" v-on:click="addRow">Add Row</button>
+      <div class="clearfix">
+        <input type="text" autofocus v-model="newEntryName" class="form-control form-control-inline width-25" placeholder="Name" />
+        <!-- <input type="number" v-model="newEntryInitiative" class="form-control form-control-inline" placeholder="Initiative..." /> -->
+        <input type="number" v-model="newEntryHitPoints" class="form-control form-control-inline width-25" placeholder="HP" />
+        <input type="number" v-model="newEntryArmorClass" class="form-control form-control-inline width-25" placeholder="AC" />
+        <button class="btn btn-success width-25" v-on:click="addRow">Add Row</button>
+      </div>
     </div>
 
     <!-- Load my code after other libraries -->

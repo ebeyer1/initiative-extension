@@ -1,21 +1,15 @@
 body {
   padding: 0 10px 10px 10px;
   white-space: nowrap;
-  width: 400px;
-}
-
-h1 {
-  font-size: 15px;
-  /*text-align: center;*/
+  width: 500px;
 }
 
 .clickable {
   cursor: pointer;
 }
 
-#new-character-name {
+.form-control-inline {
   display: inline-block;
-  width: 70%;
 }
 
 .form-control-less-padding {
@@ -33,4 +27,14 @@ h1 {
 
 thead th {
   text-align: center;
+}
+
+.clearfix:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.width-25 {
+  width: calc((100% - 20px) / 4);
 }
