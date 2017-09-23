@@ -176,6 +176,12 @@ var initiativeApp = new Vue({
       if (this.newEntryName == null || this.newEntryName == '') {
       	return;
       }
+
+      // no dupe names
+      for (var i = 0; i < this.players.length; i++) {
+        if (this.players[i].name === this.newEntryName) return;
+      }
+
       var curLength = this.players.length;
     	this.players.push({
       	name: this.newEntryName,
@@ -256,6 +262,19 @@ var initiativeApp = new Vue({
           );
         };
       }
+    },
+    dupePlayer: function(player) {
+      var name = player.name;
+      var counter = name.substr(name.length-1);
+      var newCounter = 1;
+      if (!isNaN(counter)) {
+        newCounter = parseInt(counter) + 1;
+        name = name.substr(0, name.length-1);
+      }
+      this.newEntryName = name + newCounter;
+      this.newEntryInitiative = player.initiative;
+      this.newEntryHitPoints = player.hitPoints;
+      this.newEntryArmorClass = player.armorClass;
     }
   }
 })

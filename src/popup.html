@@ -67,6 +67,9 @@
               <button class="btn btn-default btn-xs" v-on:click="unlockPlayer(player)" v-if="player.persisted" title="Unlock">
                 <span class="glyphicon glyphicon-lock"></span>
               </button>
+              <button class="btn btn-default btn-xs" v-on:click="dupePlayer(player)" v-if="!player.persisted" title="Dupe">
+                <span class="glyphicon glyphicon-plus"></span>
+              </button>
             </td>
           </tr>
         </tbody>
