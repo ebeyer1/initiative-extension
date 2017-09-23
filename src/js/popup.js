@@ -165,7 +165,7 @@ var initiativeApp = new Vue({
   },
   data: {
     newEntryName: '',
-    // newEntryInitiative: '',
+    newEntryInitiative: '',
     newEntryHitPoints: '',
     newEntryArmorClass: '',
     players: []
@@ -178,12 +178,14 @@ var initiativeApp = new Vue({
       var curLength = this.players.length;
     	this.players.push({
       	name: this.newEntryName,
+        initiative: this.newEntryInitiative,
         hitPoints: this.newEntryHitPoints,
         armorClass: this.newEntryArmorClass,
         persisted: false,
         order: curLength
       });
       this.newEntryName = '';
+      this.newEntryInitiative = '';
       this.newEntryHitPoints = '';
       this.newEntryArmorClass = '';
     },

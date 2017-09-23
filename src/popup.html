@@ -32,6 +32,7 @@
       		<tr class="clickable">
       			<th></th>
       			<th>Name</th>
+      			<th>Initiative</th>
       			<th>HP</th>
       			<th>AC</th>
             <th></th>
@@ -39,23 +40,24 @@
       	</thead>
         <tbody>
           <tr id="{{ player.name }}" v-for="(index, player) in players | orderBy 'order'" class="clickable">
-            <td class="v-middle">:::</td>
-            <td class="v-middle">{{ player.name }}</td>
+            <td class="v-middle center">:::</td>
+            <td class="v-middle center">{{ player.name }}</td>
+            <td><input type="number" v-model="player.initiative" class="form-control form-control-less-padding input-sm" placeholder="initiative" step="1" style="max-width: 30px; margin: 3px auto auto auto;" /></td>
             <td>
-              <div class="input-group" style="max-width: 150px;">
+              <div class="input-group" style="max-width: 135px; margin: auto;">
                 <span class="input-group-btn">
                     <button type="button" v-on:click="changeHp(player, -5)" class="btn btn-danger btn-xs no-outline">-5</button>
                     <button type="button" v-on:click="changeHp(player, -1)" class="btn btn-danger btn-xs no-outline">-1</button>
                 </span>
-                <input type="number" v-model="player.hitPoints" class="form-control form-control-less-padding" placeholder="hp" step="1" />
+                <input type="number" v-model="player.hitPoints" class="form-control form-control-less-padding" placeholder="HP" step="1" />
                 <span class="input-group-btn">
                     <button type="button" v-on:click="changeHp(player, 1)" class="btn btn-success btn-xs no-outline">+1</button>
                     <button type="button" v-on:click="changeHp(player, 5)" class="btn btn-success btn-xs no-outline">+5</button>
                 </span>
               </div>
             </td>
-            <td><input type="number" v-model="player.armorClass" class="form-control" placeholder="hp" step="1" style="max-width: 60px;" /></td>
-            <td>
+            <td><input type="number" v-model="player.armorClass" class="form-control form-control-less-padding input-sm" placeholder="AC" step="1" style="max-width: 30px; margin: 3px auto auto auto;" /></td>
+            <td class="v-middle">
               <button class="btn btn-danger btn-xs" v-on:click="removeRow(player)" v-if="!player.persisted" title="Remove">
                 <span class="glyphicon glyphicon-remove"></span>
               </button>
@@ -70,11 +72,11 @@
         </tbody>
       </table>
       <div class="clearfix">
-        <input type="text" autofocus v-model="newEntryName" class="form-control form-control-inline width-25" placeholder="Name" />
-        <!-- <input type="number" v-model="newEntryInitiative" class="form-control form-control-inline" placeholder="Initiative..." /> -->
-        <input type="number" v-model="newEntryHitPoints" class="form-control form-control-inline width-25" placeholder="HP" />
-        <input type="number" v-model="newEntryArmorClass" class="form-control form-control-inline width-25" placeholder="AC" />
-        <button class="btn btn-success width-25" v-on:click="addRow">Add Row</button>
+        <input type="text" tabindex="1" autofocus v-model="newEntryName" class="form-control form-control-inline width-20" placeholder="Name" />
+        <input type="number" tabindex="2" v-model="newEntryInitiative" class="form-control form-control-inline width-20" placeholder="Initiative..." />
+        <input type="number" tabindex="3" v-model="newEntryHitPoints" class="form-control form-control-inline width-20" placeholder="HP" />
+        <input type="number" tabindex="4" v-model="newEntryArmorClass" class="form-control form-control-inline width-20" placeholder="AC" />
+        <button tabindex="5" class="btn btn-success width-20" v-on:click="addRow">Add Row</button>
       </div>
     </div>
 
