@@ -49,7 +49,7 @@
                     <button type="button" v-on:click="changeHp(player, -5)" class="btn btn-danger btn-xs no-outline">-5</button>
                     <button type="button" v-on:click="changeHp(player, -1)" class="btn btn-danger btn-xs no-outline">-1</button>
                 </span>
-                <input type="number" v-model="player.hitPoints" class="form-control form-control-less-padding" placeholder="HP" step="1" />
+                <input type="number" v-model="player.hitPoints" v-bind:class="{ 'warning-health': (player.hitPoints <= 10) }" class="form-control form-control-less-padding" placeholder="HP" step="1" />
                 <span class="input-group-btn">
                     <button type="button" v-on:click="changeHp(player, 1)" class="btn btn-success btn-xs no-outline">+1</button>
                     <button type="button" v-on:click="changeHp(player, 5)" class="btn btn-success btn-xs no-outline">+5</button>
