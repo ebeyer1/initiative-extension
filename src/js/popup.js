@@ -199,7 +199,7 @@ var initiativeApp = new Vue({
       }
     },
     changeHp: function(player, amount) {
-      player.hitPoints = Math.max(0, player.hitPoints += amount);
+      player.hitPoints = Math.max(0, parseInt(player.hitPoints) + amount);
     },
     lockPlayer: function(player) {
       player.persisted = true;
