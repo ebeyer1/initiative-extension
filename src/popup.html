@@ -23,6 +23,8 @@
     <script src="js/jquery-ui.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/vue.min.js"></script>
+    <!-- Axios for http requests -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
 
   <body>
@@ -87,22 +89,25 @@
 
         <div class="tab-content">
           <div id="monsters" class="tab-pane fade in active">
-            <select v-model="newEntryFromExistingSource">
-              <!-- <option v-for="(index, player) in players | orderBy 'order'"> -->
-              <option value="val1">Goblin</option>
-              <option value="val2">Guard</option>
-              <option value="val3">Hyena</option>
-              <option value="val4">Dragon</option>
+            <p><small><em><span class="glyphicon glyphicon-info-sign"></span> Monsters come from here: SPREADSHEET</em></small></p>
+            <select v-model="selectedMonster">
+              <option v-for="monster in existingMonsters" v-bind:value="monster">
+                {{ monster.name }}
+              </option>
             </select>
+            <button tabindex="5" class="btn btn-success btn-sm" v-on:click="addMonster">Add Monster</button>
           </div>
           <div id="players" class="tab-pane fade">
-            <select v-model="newEntryFromExistingSource">
-              <option value="val1">Perrelin</option>
-              <option value="val2">Valgran</option>
-              <option value="val3">Aurodin</option>
+            <p><small><em><span class="glyphicon glyphicon-info-sign"></span> Players come from here: SPREADSHEET</em></small></p>
+            <select v-model="selectedPlayer">
+              <option v-for="player in existingPlayers" v-bind:value="player">
+                {{ player.name }}
+              </option>
             </select>
+            <button tabindex="5" class="btn btn-success btn-sm" v-on:click="addPlayer">Add Player</button>
           </div>
           <div id="custom" class="tab-pane fade">
+            <p><small><em><span class="glyphicon glyphicon-info-sign"></span> Custom entries persist until deleted</em></small></p>
             <input type="text" tabindex="1" autofocus v-model="newEntryName" class="form-control form-control-inline width-20" placeholder="Name" />
             <input type="number" tabindex="2" v-model="newEntryInitiative" class="form-control form-control-inline width-20" placeholder="Initiative..." />
             <input type="number" tabindex="3" v-model="newEntryHitPoints" class="form-control form-control-inline width-20" placeholder="HP" />

@@ -132,15 +132,19 @@ var storageKey = 'dnd-initiative-tracker-v2';
 var initiativeApp = new Vue({
   el: '#initiative-app',
   ready: function () {
-    chrome.storage.sync.get(storageKey, (items) => {
-      var val = chrome.runtime.lastError ? null : items[storageKey];
-      this.players = val || [];
-    });
+    if (chrome.storage) {
+      chrome.storage.sync.get(storageKey, (items) => {
+        var val = chrome.runtime.lastError ? null : items[storageKey];
+        this.players = val || [];
+      });
+    }
 
     this.$watch('players', function () {
       var items = {};
       items[storageKey] = this.players;
-      chrome.storage.sync.set(items);
+      if (chrome.storage) {
+        chrome.storage.sync.set(items);
+      }
     }, {deep:true});
 
     var that = this;
@@ -162,6 +166,34 @@ var initiativeApp = new Vue({
         }
       });
     });
+
+    // Load "Monster" spreadsheet data
+    var monstersUrl = 'https://spreadsheets.google.com/feeds/list/1BNZmFja3dRqcT_zKRiXQjueW3aPv2909vsPFMreQPyc/od6/public/values?alt=json';
+    axios.get(monstersUrl).then(function(response) {
+      var monsters = response.data.feed.entry.map(function(item) {
+					return {
+						name: item['gsx$name']['$t'],
+						hp: item['gsx$hp']['$t'],
+            ac: item['gsx$ac']['$t'],
+            cr: item['gsx$cr']['$t']
+					};
+        });
+      that.existingMonsters = monsters;
+    });
+
+    // Load "Player" spreadsheet data
+    var playersUrl = 'https://spreadsheets.google.com/feeds/list/1BNZmFja3dRqcT_zKRiXQjueW3aPv2909vsPFMreQPyc/o14rhi9/public/values?alt=json';
+    axios.get(playersUrl).then(function(response) {
+      var players = response.data.feed.entry.map(function(item) {
+					return {
+						name: item['gsx$name']['$t'],
+						hp: item['gsx$hp']['$t'],
+            ac: item['gsx$ac']['$t'],
+            campaign: item['gsx$campaign']['$t']
+					};
+        });
+      that.existingPlayers = players;
+    });
   },
   data: {
     newEntryName: '',
@@ -170,7 +202,8 @@ var initiativeApp = new Vue({
     newEntryArmorClass: '',
     players: [],
     lastSortKey: '',
-    newEntryFromExistingSource: null
+    existingPlayers: [],
+    existingMonsters: []
   },
   methods: {
   	addRow: function() {
@@ -196,6 +229,75 @@ var initiativeApp = new Vue({
       this.newEntryInitiative = '';
       this.newEntryHitPoints = '';
       this.newEntryArmorClass = '';
+    },
+    addMonster: function() {
+      if (this.selectedMonster == null || typeof this.selectedMonster === "undefined" || this.selectedMonster === '') {
+        return;
+      }
+
+      var monster = JSON.parse(JSON.stringify(this.selectedMonster));
+
+      // check for dupe name
+      for (var i = 0; i < this.players.length; i++) {
+        if (this.players[i].name === monster.name) {
+          monster.name += " (" + getHash() + ")";
+          break;
+        }
+      }
+
+      var curLength = this.players.length;
+    	this.players.push({
+      	name: monster.name,
+        initiative: 10,
+        hitPoints: monster.hp,
+        armorClass: monster.ac,
+        persisted: false,
+        order: curLength
+      });
+
+      function getHash() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for (var i = 0; i < 3; i++) {
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+
+        return text;
+      }
+    },
+    addPlayer: function() {
+      if (this.selectedPlayer == null || typeof this.selectedPlayer === "undefined" || this.selectedPlayer === '') {
+        return;
+      }
+
+      var player = JSON.parse(JSON.stringify(this.selectedPlayer));
+
+      // no dupe players
+      for (var i = 0; i < this.players.length; i++) {
+        if (this.players[i].name === player.name) return;
+      }
+
+      var curLength = this.players.length;
+    	this.players.push({
+      	name: player.name,
+        initiative: 10,
+        hitPoints: player.hp,
+        armorClass: player.ac,
+        persisted: false,
+        order: curLength
+      });
+
+      function getHash() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for (var i = 0; i < 3; i++) {
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+
+        return text;
+      }
     },
     removeRow: function(player) {
       var idx = 0;
