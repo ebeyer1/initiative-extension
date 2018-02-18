@@ -85,11 +85,12 @@
           <li class="active"><a data-toggle="tab" href="#monsters">Monsters</a></li>
           <li><a data-toggle="tab" href="#players">Players</a></li>
           <li><a data-toggle="tab" href="#custom">Custom</a></li>
+          <li><a data-toggle="tab" href="#group">Change Group</a></li>
         </ul>
 
         <div class="tab-content">
           <div id="monsters" class="tab-pane fade in active">
-            <p><small><em><span class="glyphicon glyphicon-info-sign"></span> Monsters come from here: SPREADSHEET</em></small></p>
+            <p><small><em><span class="glyphicon glyphicon-info-sign"></span> Monsters come from <a href="https://docs.google.com/spreadsheets/d/1BNZmFja3dRqcT_zKRiXQjueW3aPv2909vsPFMreQPyc/edit#gid=0" target="_blank">here</a></em></small></p>
             <select v-model="selectedMonster">
               <option v-for="monster in existingMonsters" v-bind:value="monster">
                 {{ monster.name }}
@@ -98,7 +99,7 @@
             <button tabindex="5" class="btn btn-success btn-sm" v-on:click="addMonster">Add Monster</button>
           </div>
           <div id="players" class="tab-pane fade">
-            <p><small><em><span class="glyphicon glyphicon-info-sign"></span> Players come from here: SPREADSHEET</em></small></p>
+            <p><small><em><span class="glyphicon glyphicon-info-sign"></span> Players come from <a href="https://docs.google.com/spreadsheets/d/1BNZmFja3dRqcT_zKRiXQjueW3aPv2909vsPFMreQPyc/edit#gid=68466875" target="_blank">here</a></em></small></p>
             <select v-model="selectedPlayer">
               <option v-for="player in existingPlayers" v-bind:value="player">
                 {{ player.name }}
@@ -113,6 +114,15 @@
             <input type="number" tabindex="3" v-model="newEntryHitPoints" class="form-control form-control-inline width-20" placeholder="HP" />
             <input type="number" tabindex="4" v-model="newEntryArmorClass" class="form-control form-control-inline width-20" placeholder="AC" />
             <button tabindex="5" class="btn btn-success width-20" v-on:click="addRow">Add Row</button>
+          </div>
+          <div id="group" class="tab-pane fade">
+            <p><small><em><span class="glyphicon glyphicon-info-sign"></span> Select a group to clear the board and load players</em></small></p>
+            <select v-model="selectedGroupName">
+              <option v-for="name in groupNames" v-bind:value="name">
+                {{ name }}
+              </option>
+            </select>
+            <button tabindex="5" class="btn btn-success btn-sm" v-on:click="selectGroup">Select Group</button>
           </div>
         </div>
       </div>

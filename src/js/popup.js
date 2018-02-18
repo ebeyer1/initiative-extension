@@ -184,15 +184,22 @@ var initiativeApp = new Vue({
     // Load "Player" spreadsheet data
     var playersUrl = 'https://spreadsheets.google.com/feeds/list/1BNZmFja3dRqcT_zKRiXQjueW3aPv2909vsPFMreQPyc/o14rhi9/public/values?alt=json';
     axios.get(playersUrl).then(function(response) {
+      var groups = {};
       var players = response.data.feed.entry.map(function(item) {
-					return {
+          var curCampaign = item['gsx$campaign']['$t'];
+          groups[curCampaign] = groups[curCampaign] || [];
+					var item =  {
 						name: item['gsx$name']['$t'],
 						hp: item['gsx$hp']['$t'],
             ac: item['gsx$ac']['$t'],
-            campaign: item['gsx$campaign']['$t']
+            campaign: curCampaign
 					};
+          groups[curCampaign].push(item);
+          return item;
         });
       that.existingPlayers = players;
+      that.groups = groups;
+      that.groupNames = Object.keys(groups);
     });
   },
   data: {
@@ -203,7 +210,9 @@ var initiativeApp = new Vue({
     players: [],
     lastSortKey: '',
     existingPlayers: [],
-    existingMonsters: []
+    existingMonsters: [],
+    groups: {},
+    groupNames: []
   },
   methods: {
   	addRow: function() {
@@ -298,6 +307,27 @@ var initiativeApp = new Vue({
 
         return text;
       }
+    },
+    selectGroup: function() {
+      if (this.selectedGroupName == null || typeof this.selectedGroupName === "undefined" || this.selectedGroupName === '') {
+        return;
+      }
+
+      var curGroup = this.groups[this.selectedGroupName];
+      var players = [];
+      for(var i = 0; i < curGroup.length; i++) {
+        var playa = curGroup[i];
+        players.push({
+        	name: playa.name,
+          initiative: 10,
+          hitPoints: playa.hp,
+          armorClass: playa.ac,
+          persisted: false,
+          order: i
+        });
+      }
+
+      this.players = players;
     },
     removeRow: function(player) {
       var idx = 0;
