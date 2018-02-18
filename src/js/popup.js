@@ -293,7 +293,7 @@ var initiativeApp = new Vue({
         initiative: 10,
         hitPoints: player.hp,
         armorClass: player.ac,
-        persisted: false,
+        persisted: true,
         order: curLength
       });
 
@@ -322,7 +322,7 @@ var initiativeApp = new Vue({
           initiative: 10,
           hitPoints: playa.hp,
           armorClass: playa.ac,
-          persisted: false,
+          persisted: true,
           order: i
         });
       }
@@ -408,6 +408,8 @@ var initiativeApp = new Vue({
       this.newEntryInitiative = player.initiative;
       this.newEntryHitPoints = player.hitPoints;
       this.newEntryArmorClass = player.armorClass;
+
+      $('[href="#custom"]').tab('show');
     }
   }
 })
