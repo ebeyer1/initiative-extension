@@ -60,3 +60,11 @@ input[type="number"] {
 .warning-health {
   color: #cd0000;
 }
+
+.nav-tabs-compact li a {
+  padding: 4px 10px;
+}
+
+.alert-small {
+  padding: 8px;
+}

@@ -169,7 +169,8 @@ var initiativeApp = new Vue({
     newEntryHitPoints: '',
     newEntryArmorClass: '',
     players: [],
-    lastSortKey: ''
+    lastSortKey: '',
+    newEntryFromExistingSource: null
   },
   methods: {
   	addRow: function() {
